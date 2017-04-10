@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Analytics and tracking in redux",
   "main": "lib/index.cjs.js",
-  "module": "src/index.es.js",
+  "module": "lib/index.es.js",
   "scripts": {
     "build": "rollup -c",
     "test": "jest",

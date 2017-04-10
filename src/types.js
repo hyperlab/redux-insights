@@ -1,0 +1,8 @@
+export const INSIGHT_IDENTIFY = "INSIGHT_IDENTIFY";
+export const INSIGHT_TRACK = "INSIGHT_TRACK";
+export const INSIGHT_PAGE = "INSIGHT_PAGE";
+export default {
+  INSIGHT_IDENTIFY,
+  INSIGHT_TRACK,
+  INSIGHT_PAGE
+};

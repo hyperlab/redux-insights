@@ -54,32 +54,57 @@ action creator.
 
 ## API
 
-### `createInsightMiddleware(plugins, [globalInsights]`
+### `insights`
+Insights is an array of insight objects, or just a single insight object.
+
+```javascript
+import { track, page } from "redux-insights";
+
+const validInsights = track("single insight");
+
+const alsoValidInsights = [
+  track("first insight"),
+  page("second insight")
+];
+```
+
+An insight object consist of the following keys:
+* `type` *(String)*: The type of the insight. See [types](#types).
+* `event` *(String)*: A string describing the event. E.g. "change user name".
+* `selector(action, getState)` *(Function)*: A selector function that receives
+the action that triggered the insight, as well as a getState method (in case
+you need to access some other state). The default selector is `identity`,
+meaning it returns the `action` object.
+
+### `createInsightMiddleware(plugins, [globalInsights])`
 Creates a Redux middleware that passes all actions with an insights key and
 those defined in globalInsights through the plugins.
 
 #### Arguments
-* `plugins` (Array): An array of plugins that parses the insights. The package
+* `plugins` *(Array)*: An array of plugins that parses the insights. The package
 includes the following plugins, that can be imported via `import { plugins } from "redux-insights"`:
   * Google Analytics
 
-* `globalInsights` (Array/Object): An array of insight maps, or just an insight
+* `globalInsights` *Optional: (Array/Object)*: An array of insight maps, or just an insight
 map. An insight map is an object with keys being action types and values being
 corresponding insights. This is used to add insights to actions that you don't
 have control over - for example `react-router-redux` actions. We actually
 provide a `preset` for `react-router-redux` that you access like this:
 
 ```javascript
-import { createInsightsMiddleware, presets } from "redux-insights"
+import { createInsightsMiddleware, presets, track } from "redux-insights";
 
 const plugins = [
   // example: Google Analytics
-]
+];
 
 const globalInsights = [
   presets.reactRouter,
-  // other insight maps
-]
+  // custom insights map
+  {
+    MY_ACTION: track("my custom action")
+  }
+];
 
 const insightsMiddleware = createInsightsMiddleware([plugins], globalInsights);
 ```
@@ -89,13 +114,13 @@ Creates a factory for creating insights of the provided type. Is used internally
 to create the `track`, `page` and `identify` helpers.
 
 #### Arguments
-* `type` (String): A unique identifier for the insight type. See standard types.
+* `type` *(String)*: A unique identifier for the insight type. See standard types.
 
-### `track(event)`/`page(event)`/`identify(event)`
+### `track/page/identify(event, [selector])`
 Creates an insight of the type `INSIGHT_TRACK`/`INSIGHT_PAGE`/`INSIGHT_IDENTIFY`.
 
 #### Arguments
-* `event` (String): A string describing the event you want an insight of, e.g.
+* `event` *(String)*: A string describing the event you want an insight of, e.g.
 "created new support ticket" or "change" (for the page type).
 
 ### `types`

@@ -122,6 +122,16 @@ Creates an insight of the type `INSIGHT_TRACK`/`INSIGHT_PAGE`/`INSIGHT_IDENTIFY`
 #### Arguments
 * `event` *(String)*: A string describing the event you want an insight of, e.g.
 "created new support ticket" or "change" (for the page type).
+* `selector(action, getState)` *Optional: (Function)*: The selector can be used
+to pick some specific data from the action or anywhere in the state, to provide
+to the plugin that is parsing your insight. For example in the
+react-router-redux preset we use the selector to get our current path:
+
+```javascript
+export default {
+  [LOCATION_CHANGE]: page("change", action => action.payload.pathname)
+};
+```
 
 ### `types`
 An object containing the default insight types which are:

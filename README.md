@@ -9,7 +9,7 @@ action. With `redux-insights` you attach our middleware and use helper functions
 to add rich analytics with minimal effort, and a tiny footprint.
 
 ## Installation
-`yarn install -D redux-insights`
+`yarn add -D redux-insights`
 
 or
 

@@ -13,6 +13,10 @@ describe("handleTrack", () => {
     handleTrack(tracker, insight);
 
     expect(tracker.send).toHaveBeenCalled();
-    expect(tracker.send).toHaveBeenCalledWith("event", "", insight.event);
+    expect(tracker.send).toHaveBeenCalledWith(
+      "event",
+      "insights",
+      insight.event
+    );
   });
 });

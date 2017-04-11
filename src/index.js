@@ -1,4 +1,4 @@
-export { default as createMiddleware } from "./create-middleware";
+export { default as createInsightsMiddleware } from "./create-middleware";
 export {
   createInsightFactory,
   track,
@@ -8,3 +8,4 @@ export {
 export { default as types } from "./types";
 export { default as presets } from "./presets";
 export { default as plugins } from "./plugins";
+export { default as withInsights } from "./with-insights";

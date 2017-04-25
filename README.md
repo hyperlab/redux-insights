@@ -152,7 +152,7 @@ analytics provider.
 The following plugins are included in `redux-insights` and can be used out-of-the-box:
 * Google Analytics
 
-We provide a very intuitive Plugin API (docs coming soon!), so don't be afraid
+We provide a [very intuitive Plugin API](https://github.com/hyperlab/redux-insights/blob/master/PLUGINS.md), so don't be afraid
 to write your own plugins!
 
 ### `presets`

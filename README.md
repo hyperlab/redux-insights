@@ -21,7 +21,7 @@ or
 
 ```javascript
 import { applyMiddleware, createStore } from "redux";
-import { createInsightMiddleware, plugins, presets } from "redux-insights";
+import { createInsightsMiddleware, plugins, presets } from "redux-insights";
 
 const insightsMiddleware = createInsightsMiddleware([
   plugins.googleAnalytics({ trackingID: "UA-XXXXXXXX-X" })
@@ -76,7 +76,7 @@ the action that triggered the insight, as well as a getState method (in case
 you need to access some other state). The default selector is `identity`,
 meaning it returns the `action` object.
 
-### `createInsightMiddleware(plugins, [globalInsights])`
+### `createInsightsMiddleware(plugins, [globalInsights])`
 Creates a Redux middleware that passes all actions with an insights key and
 those defined in globalInsights through the plugins.
 

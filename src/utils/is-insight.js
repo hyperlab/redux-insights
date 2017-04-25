@@ -13,8 +13,8 @@ function isInsight(insight) {
     return false;
   }
 
-  if (typeof insight.selector !== "function") {
-    console.warn("Insight selector is expected to be a function");
+  if (typeof insight.data === "undefined") {
+    console.warn("Insight data is expected to be defined");
     return false;
   }
 

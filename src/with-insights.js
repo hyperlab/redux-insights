@@ -1,9 +1,13 @@
+import selectData from "./utils/select-data";
+
 function withInsights(insights) {
   return function(factory) {
     return function(...args) {
+      const action = factory(...args);
+
       return {
-        ...factory(...args),
-        insights
+        ...action,
+        insights: selectData(action)(insights)
       };
     };
   };

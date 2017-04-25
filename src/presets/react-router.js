@@ -6,5 +6,5 @@ import { page } from "../insight-factories";
 const LOCATION_CHANGE = "@@router/LOCATION_CHANGE";
 
 export default {
-  [LOCATION_CHANGE]: page("change", action => action.payload.pathname)
+  [LOCATION_CHANGE]: action => page("change", action.payload.pathname)
 };

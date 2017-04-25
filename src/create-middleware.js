@@ -2,6 +2,7 @@ import createInsightHandler from "./create-insight-handler";
 import toArray from "./utils/to-array";
 import flattenArray from "./utils/flatten-array";
 import isInsight from "./utils/is-insight";
+import selectData from "./utils/select-data";
 
 function createMiddleware(plugins, globalInsights = []) {
   const pluginsArray = toArray(plugins);
@@ -17,18 +18,15 @@ function createMiddleware(plugins, globalInsights = []) {
   );
 
   return store => next => action => {
+    const globalInsights = toArray(globalInsightsMap[action.type])
+      .map(selectData(action, store.getState))
+
     const insights = flattenArray([
       action.insights,
-      globalInsightsMap[action.type]
+      globalInsights
     ])
       .filter(isInsight)
-      .map(({ type, event, selector }) =>
-        insightHandler({
-          type,
-          event,
-          data: selector(action, store.getState)
-        })
-      );
+      .map(insightHandler);
 
     return Promise.all(insights).then(() => next(action));
   };

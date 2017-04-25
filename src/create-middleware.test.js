@@ -40,9 +40,10 @@ describe("createMiddleware", () => {
   });
 
   it("should call plugin if action has an insight handler", () => {
+    const data = "mockData";
     const action = {
       ...baseAction,
-      insights: track(baseAction.type)
+      insights: track(baseAction.type, data)
     };
 
     const middleware = createMiddleware([mockPlugin]);
@@ -51,39 +52,36 @@ describe("createMiddleware", () => {
       expect(mockPlugin).toHaveBeenCalledWith({
         type: INSIGHT_TRACK,
         event: baseAction.type,
-        data: action
+        data
       });
       expect(mockNext).toHaveBeenCalledTimes(1);
     });
   });
 
-  it.only(
-    "should call plugin twice if action has two insights attached",
-    () => {
-      const action = {
-        ...baseAction,
-        insights: [track(baseAction.type), page(baseAction.type)]
-      };
+  it("should call plugin twice if action has two insights attached", () => {
+    const action = {
+      ...baseAction,
+      insights: [track(baseAction.type), page(baseAction.type)]
+    };
 
-      const middleware = createMiddleware([mockPlugin]);
-      return middleware(mockStore)(mockNext)(action).then(() => {
-        expect(mockPlugin).toHaveBeenCalledTimes(2);
-        expect(mockPlugin).toHaveBeenCalledWith({
-          type: INSIGHT_TRACK,
-          event: baseAction.type,
-          data: action
-        });
-        expect(mockPlugin).toHaveBeenCalledWith({
-          type: INSIGHT_PAGE,
-          event: baseAction.type,
-          data: action
-        });
-        expect(mockNext).toHaveBeenCalledTimes(1);
+    const middleware = createMiddleware([mockPlugin]);
+    return middleware(mockStore)(mockNext)(action).then(() => {
+      expect(mockPlugin).toHaveBeenCalledTimes(2);
+      expect(mockPlugin).toHaveBeenCalledWith({
+        type: INSIGHT_TRACK,
+        event: baseAction.type,
+        data: null
       });
-    }
-  );
+      expect(mockPlugin).toHaveBeenCalledWith({
+        type: INSIGHT_PAGE,
+        event: baseAction.type,
+        data: null
+      });
+      expect(mockNext).toHaveBeenCalledTimes(1);
+    });
+  });
 
-  it("should trigger analytics if insight map had matching handler", () => {
+  it("should trigger insight if insight map had matching handler", () => {
     const insightMap = {
       [baseAction.type]: track(baseAction.type)
     };
@@ -94,7 +92,7 @@ describe("createMiddleware", () => {
       expect(mockPlugin).toHaveBeenCalledWith({
         type: INSIGHT_TRACK,
         event: baseAction.type,
-        data: baseAction
+        data: null
       });
       expect(mockNext).toHaveBeenCalledTimes(1);
     });
@@ -111,40 +109,43 @@ describe("createMiddleware", () => {
       expect(mockPlugin).toHaveBeenCalledWith({
         type: INSIGHT_TRACK,
         event: baseAction.type,
-        data: baseAction
+        data: null
       });
       expect(mockPlugin).toHaveBeenCalledWith({
         type: INSIGHT_PAGE,
         event: baseAction.type,
-        data: baseAction
+        data: null
       });
       expect(mockNext).toHaveBeenCalledTimes(1);
     });
   });
 
   it("should trigger analytics twice if action has one insight and map has another one", () => {
+    const data = "pageData";
     const insightMap = {
-      [baseAction.type]: page(baseAction.type)
+      [baseAction.type]: page(baseAction.type, data)
     };
     const action = {
       ...baseAction,
-      insight: track(baseAction.type)
+      insights: track(baseAction.type)
     };
 
     const middleware = createMiddleware([mockPlugin], insightMap);
-    middleware(mockStore)(mockNext)(action).then(() => {
+    return middleware(mockStore)(mockNext)(action).then(() => {
       expect(mockPlugin).toHaveBeenCalledTimes(2);
       expect(mockPlugin).toHaveBeenCalledWith({
         type: INSIGHT_TRACK,
         event: action.type,
-        data: action
+        data: null
       });
       expect(mockPlugin).toHaveBeenCalledWith({
         type: INSIGHT_PAGE,
         event: action.type,
-        data: action
+        data
       });
       expect(mockNext).toHaveBeenCalledTimes(1);
     });
   });
+
+  it();
 });

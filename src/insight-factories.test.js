@@ -8,25 +8,16 @@ const insightTypes = [
 ];
 
 const event = "mockEvent";
-const customSelector = props => props.id;
-const failingSelector = 0;
+const data = "mockData";
 
 insightTypes.forEach(([name, type, factory]) => {
   describe(name, () => {
-    it(`returns an insight object with type ${type} and default selector`, () => {
-      expect(factory(event)).toEqual({ type, event, selector: id });
+    it(`returns an insight object with type ${type} and null data`, () => {
+      expect(factory(event)).toEqual({ type, event, data: null });
     });
 
-    it(`returns an insight object with type ${type} and provided selector`, () => {
-      expect(factory(event, customSelector)).toEqual({
-        type,
-        event,
-        selector: customSelector
-      });
-    });
-
-    it(`throws if provided selector is not a function`, () => {
-      expect(() => factory(event, failingSelector)).toThrow();
+    it(`returns an insight object with type ${type} and provided data`, () => {
+      expect(factory(event, data)).toEqual({ type, event, data });
     });
   });
 });

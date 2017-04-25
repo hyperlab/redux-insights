@@ -5,7 +5,7 @@ describe("isInsight", () => {
   const baseInsight = {
     type: INSIGHT_TRACK,
     event: "trackingEvent",
-    selector: x => x
+    data: {}
   };
 
   it("should return true for a valid insight", () => {
@@ -36,10 +36,10 @@ describe("isInsight", () => {
     expect(isInsight(insight)).toBe(false);
   });
 
-  it("should return false if selector is not a function", () => {
+  it("should return false if data is undefined", () => {
     const insight = {
       ...baseInsight,
-      selector: 0
+      data: undefined
     };
 
     expect(isInsight(insight)).toBe(false);

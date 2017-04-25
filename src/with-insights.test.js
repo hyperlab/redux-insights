@@ -50,4 +50,23 @@ describe("withInsights", () => {
 
     expect(action).toEqual(expected);
   });
+
+  it("supports providing an insight creator", () => {
+    const insightCreator = action => track("test", action.payload);
+    const expected = {
+      type: "testAction",
+      payload: "test",
+      insights: track("test", "test")
+    };
+
+    const actionCreator = payload => ({
+      type: expected.type,
+      payload
+    });
+
+    const enhancedActionCreator = withInsights(insightCreator)(actionCreator);
+    const action = enhancedActionCreator(expected.payload);
+
+    expect(action).toEqual(expected);
+  });
 });

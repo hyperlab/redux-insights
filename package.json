@@ -1,6 +1,6 @@
 {
   "name": "redux-insights",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Redux middleware for analytics and tracking insights",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",

@@ -25,12 +25,58 @@ otherwise just return the data.
 A plugin is a pure function that takes an insight, does some kind of side effect
 or calculation and then returns the insight, or an enhanced version of it.
 
-This is a simple example of a plugin that outputs the insight using `console.log`
-and then passes the insight on.
+### Examples
+
+#### Logger
+This is a simple plugin that prints the insight using `console.log` and then
+passes it on to the next plugin.
 
 ```javascript
 function insightLogger(insight) {
   console.log('RECEIVED INSIGHT:', insight);
+  return insight;
+}
+```
+
+#### Insight enhancer
+This is a plugin that changes insights of type `INSIGHT_PAGE` to `INSIGHT_TRACK`.
+
+```javascript
+import { INSIGHT_PAGE, INSIGHT_TRACK } from "redux-insights";
+
+function insightPageToTrack(insight) {
+  if (insight.type === INSIGHT_PAGE) {
+    return {
+      type: INSIGHT_TRACK,
+      event: 'page',
+      data: insight.data
+    };
+  }
+
+  return insight;
+}
+```
+
+#### Fetch data from DB
+Fetches data asynchronously from a database and returns a new insight with
+user name instead of user id as data, to pass to next plugin.
+
+```javascript
+import { INSIGHT_IDENTIFY } from "redux-insights";
+
+function addUserNameToInsight(insight) {
+  if (insight.type === INSIGHT_IDENTIFY) {
+    const userID = insight.data;
+
+    return fetchUserNameFromDatabase(userID).then(function (userName) {
+      return {
+        type: INSIGHT_IDENTIFY,
+        event: 'userName',
+        data: userName
+      };
+    });
+  }
+
   return insight;
 }
 ```

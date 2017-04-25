@@ -16,23 +16,22 @@ function createMiddleware(plugins, globalInsights = []) {
     {}
   );
 
-  return store =>
-    next =>
-      action => {
-        const insights = flattenArray([
-          action.insights,
-          globalInsightsMap[action.type]
-        ])
-          .filter(isInsight)
-          .map(({ type, event, selector }) =>
-            insightHandler({
-              type,
-              event,
-              data: selector(action, store.getState)
-            }));
+  return store => next => action => {
+    const insights = flattenArray([
+      action.insights,
+      globalInsightsMap[action.type]
+    ])
+      .filter(isInsight)
+      .map(({ type, event, selector }) =>
+        insightHandler({
+          type,
+          event,
+          data: selector(action, store.getState)
+        })
+      );
 
-        return Promise.all(insights).then(() => next(action));
-      };
+    return Promise.all(insights).then(() => next(action));
+  };
 }
 
 export default createMiddleware;

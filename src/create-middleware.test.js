@@ -57,28 +57,31 @@ describe("createMiddleware", () => {
     });
   });
 
-  it.only("should call plugin twice if action has two insights attached", () => {
-    const action = {
-      ...baseAction,
-      insights: [track(baseAction.type), page(baseAction.type)]
-    };
+  it.only(
+    "should call plugin twice if action has two insights attached",
+    () => {
+      const action = {
+        ...baseAction,
+        insights: [track(baseAction.type), page(baseAction.type)]
+      };
 
-    const middleware = createMiddleware([mockPlugin]);
-    return middleware(mockStore)(mockNext)(action).then(() => {
-      expect(mockPlugin).toHaveBeenCalledTimes(2);
-      expect(mockPlugin).toHaveBeenCalledWith({
-        type: INSIGHT_TRACK,
-        event: baseAction.type,
-        data: action
+      const middleware = createMiddleware([mockPlugin]);
+      return middleware(mockStore)(mockNext)(action).then(() => {
+        expect(mockPlugin).toHaveBeenCalledTimes(2);
+        expect(mockPlugin).toHaveBeenCalledWith({
+          type: INSIGHT_TRACK,
+          event: baseAction.type,
+          data: action
+        });
+        expect(mockPlugin).toHaveBeenCalledWith({
+          type: INSIGHT_PAGE,
+          event: baseAction.type,
+          data: action
+        });
+        expect(mockNext).toHaveBeenCalledTimes(1);
       });
-      expect(mockPlugin).toHaveBeenCalledWith({
-        type: INSIGHT_PAGE,
-        event: baseAction.type,
-        data: action
-      });
-      expect(mockNext).toHaveBeenCalledTimes(1);
-    });
-  });
+    }
+  );
 
   it("should trigger analytics if insight map had matching handler", () => {
     const insightMap = {

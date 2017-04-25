@@ -1,5 +1,5 @@
 function isInsight(insight) {
-  if (typeof insight !== 'object') {
+  if (typeof insight !== "object") {
     return false;
   }
 

@@ -9,7 +9,7 @@ describe("handlePage", () => {
   beforeEach(() => {
     tracker.set.mockReset();
     tracker.send.mockReset();
-  })
+  });
 
   it("should set page url on tracker and send a pageview event", () => {
     const insight = {

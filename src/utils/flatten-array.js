@@ -5,7 +5,7 @@ function flattenArray(arr = []) {
 
   return arr.reduce(
     (res, el) =>
-      Array.isArray(el) ? res.concat(flattenArray(el)) : res.concat(el),
+      (Array.isArray(el) ? res.concat(flattenArray(el)) : res.concat(el)),
     []
   );
 }

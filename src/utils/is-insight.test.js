@@ -16,7 +16,7 @@ describe("isInsight", () => {
   it("should return false if insight is not an object", () => {
     const insight = 0;
     expect(isInsight(insight)).toBe(false);
-  })
+  });
 
   it("should return false if type is not a string", () => {
     const insight = {
